@@ -3,7 +3,7 @@
 
 typedef struct {
   uint8_t *dato;
-  size_t cantidad;
+  size_t capacidad;
 } MemoriaPrincipal;
 
 MemoriaPrincipal* crearMemoria (size_t capacidad);
