@@ -19,6 +19,10 @@ void destruirMemoria(MemoriaPrincipal mem){
 int leerMemoria (MemoriaPrincipal *memoria, size_t direccion, size_t n_bytes, unit8_t *buffer){
   
 }
+
+MemoriaPrincipal escribirMemoria (MemoriaPrincipal *mem, size_t direccion, size_t n_bytes, unit8_t *buffer){
+
+}
   
 MemoriaPrincipal compactarMemoria (MemoriaPrincipal *memoria, size_t direccion, size_t n_bytes, unit8_t *buffer){
 
