@@ -17,7 +17,9 @@ void destruirMemoria(MemoriaPrincipal mem){
 }
 
 int leerMemoria (MemoriaPrincipal *memoria, size_t direccion, size_t n_bytes, unit8_t *buffer){
-  
+  if (direccion + n_bytes > mem->capacidad) return -1;
+  memcpy(buffer, mem->datos + direccion, n_bytes);
+  return 0;
 }
 
 MemoriaPrincipal escribirMemoria (MemoriaPrincipal *mem, size_t direccion, size_t n_bytes, unit8_t *buffer){
