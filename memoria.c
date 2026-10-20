@@ -16,7 +16,7 @@ void destruirMemoria(MemoriaPrincipal mem){
   free(mem);
 }
 
-int leerMemoria(){
-
+int leerMemoria (MemoriaPrincipal *memoria, size_t direccion, size_t n_bytes, unit8_t *buffer){
+  
 }
   
