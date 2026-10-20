@@ -20,3 +20,6 @@ int leerMemoria (MemoriaPrincipal *memoria, size_t direccion, size_t n_bytes, un
   
 }
   
+MemoriaPrincipal compactarMemoria (MemoriaPrincipal *memoria, size_t direccion, size_t n_bytes, unit8_t *buffer){
+
+}
