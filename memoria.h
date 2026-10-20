@@ -1,5 +1,3 @@
-#define MEMORIA_H
-
 #include <stddef.h>
 #include <stdint.h>
 
