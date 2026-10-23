@@ -23,9 +23,21 @@ int leerMemoria (MemoriaPrincipal *memoria, size_t direccion, size_t n_bytes, un
 }
 
 MemoriaPrincipal escribirMemoria (MemoriaPrincipal *mem, size_t direccion, size_t n_bytes, unit8_t *buffer){
-
+  if(!mem|| direccion + n_bytes >mem -> capacidad) return -1;
+  memcpy(mem->datos + direccion, buffer , n_bytes);
+  return 0;
 }
   
 MemoriaPrincipal compactarMemoria (MemoriaPrincipal *memoria, size_t direccion, size_t n_bytes, unit8_t *buffer){
-
-}
+  if (!mem) return;
+    size_t write_idx = 0;
+    for (size_t i = 0; i < mem -> capacidad; i++){
+      if (mem->datos[i] != 0){
+        if(i != write_idx) {
+          mem ->datos[write_idx] = mem->datos[i];
+          mem->datos[i] = 0;
+        }
+        write_idx++; 
+      }
+    }
+}  
