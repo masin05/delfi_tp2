@@ -1,43 +1,52 @@
 #include "memoria.h"
 
-MemoriaPrincipal* crearMemoria(size_t capacidad){
-  MemoriaPrincipal *mem = (MemoriaPrincipal*) malloc(sizeof(MemoriaPrincipal));
-  if (!mem) return NULL;
-  mem->datos = (uint8_t*) calloc(capacidad, sizeof(uint8_t));
-  mem->capacidad = capacidad;
-  if(!mem -> datos){
-    destruirMemoria(mem);
-  }
-  return mem;
+#include <string.h>
+
+void memoria_inicializar(MemoriaPrincipal *memoria) {
+    memset(memoria->datos, 0, TAM_MEMORIA);
 }
 
-void destruirMemoria(MemoriaPrincipal mem){
-  free(mem->datos);
-  free(mem);
+bool memoria_rango_valido(size_t direccion, size_t n_bytes) {
+    /* Se compara así (y no direccion + n_bytes <= TAM_MEMORIA) para que la suma no desborde. */
+    return direccion <= TAM_MEMORIA && n_bytes <= TAM_MEMORIA - direccion;
 }
 
-int leerMemoria (MemoriaPrincipal *memoria, size_t direccion, size_t n_bytes, unit8_t *buffer){
-  if (direccion + n_bytes > mem->capacidad) return -1;
-  memcpy(buffer, mem->datos + direccion, n_bytes);
-  return 0;
-}
-
-MemoriaPrincipal escribirMemoria (MemoriaPrincipal *mem, size_t direccion, size_t n_bytes, unit8_t *buffer){
-  if(!mem|| direccion + n_bytes >mem -> capacidad) return -1;
-  memcpy(mem->datos + direccion, buffer , n_bytes);
-  return 0;
-}
-  
-MemoriaPrincipal compactarMemoria (MemoriaPrincipal *memoria, size_t direccion, size_t n_bytes, unit8_t *buffer){
-  if (!mem) return;
-    size_t write_idx = 0;
-    for (size_t i = 0; i < mem -> capacidad; i++){
-      if (mem->datos[i] != 0){
-        if(i != write_idx) {
-          mem ->datos[write_idx] = mem->datos[i];
-          mem->datos[i] = 0;
-        }
-        write_idx++; 
-      }
+bool memoria_leer(const MemoriaPrincipal *memoria, size_t direccion, size_t n_bytes, uint8_t *buffer) {
+    if (!memoria_rango_valido(direccion, n_bytes)) {
+        return false;
     }
-}  
+    memcpy(buffer, memoria->datos + direccion, n_bytes);
+    return true;
+}
+
+bool memoria_escribir(MemoriaPrincipal *memoria, size_t direccion, size_t n_bytes, const uint8_t *buffer) {
+    if (!memoria_rango_valido(direccion, n_bytes)) {
+        return false;
+    }
+    memcpy(memoria->datos + direccion, buffer, n_bytes);
+    return true;
+}
+
+static bool palabra_libre(const MemoriaPrincipal *memoria, size_t indice_palabra) {
+    for (size_t byte = 0; byte < TAM_PALABRA; byte++) {
+        if (memoria->datos[indice_palabra * TAM_PALABRA + byte] != 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void memoria_compactar(MemoriaPrincipal *memoria) {
+    size_t destino = 0; /* próxima posición libre al comienzo de la memoria */
+
+    for (size_t origen = 0; origen < PALABRAS_MEMORIA; origen++) {
+        if (palabra_libre(memoria, origen)) {
+            continue;
+        }
+        if (origen != destino) {
+            memcpy(memoria->datos + destino * TAM_PALABRA, memoria->datos + origen * TAM_PALABRA, TAM_PALABRA);
+            memset(memoria->datos + origen * TAM_PALABRA, 0, TAM_PALABRA);
+        }
+        destino++;
+    }
+}
