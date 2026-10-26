@@ -7,7 +7,7 @@ void memoria_inicializar(MemoriaPrincipal *memoria) {
 }
 
 bool memoria_rango_valido(size_t direccion, size_t n_bytes) {
-    /* Se compara así (y no direccion + n_bytes <= TAM_MEMORIA) para que la suma no desborde. */
+    // se compara así (y no direccion + n_bytes <= TAM_MEMORIA) para que la suma no desborde.
     return direccion <= TAM_MEMORIA && n_bytes <= TAM_MEMORIA - direccion;
 }
 
@@ -37,7 +37,7 @@ static bool palabra_libre(const MemoriaPrincipal *memoria, size_t indice_palabra
 }
 
 void memoria_compactar(MemoriaPrincipal *memoria) {
-    size_t destino = 0; /* próxima posición libre al comienzo de la memoria */
+    size_t destino = 0; // proxima posición libre al comienzo de la memoria
 
     for (size_t origen = 0; origen < PALABRAS_MEMORIA; origen++) {
         if (palabra_libre(memoria, origen)) {
