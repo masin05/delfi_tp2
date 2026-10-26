@@ -21,11 +21,11 @@ BloqueCache *cache_insertar(Cache *cache, size_t numero_bloque, const uint8_t *d
     for (size_t i = 0; i < NUM_BLOQUES; i++) {
         BloqueCache *candidato = &cache->bloques[i];
         if (!candidato->valido) {
-            destino = candidato; /* hay un lugar vacío: no hace falta descartar nada */
+            destino = candidato; // hay un lugar vacío: no hace falta descartar nada
             break;
         }
         if (candidato->orden_ingreso < destino->orden_ingreso) {
-            destino = candidato; /* hasta ahora es el que entró primero */
+            destino = candidato; //hasta ahora es el que entró primero
         }
     }
 
