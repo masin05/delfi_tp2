@@ -18,12 +18,12 @@ void memoria_inicializar(Memoria *memoria) {
     cache_inicializar(&memoria->cache);
 }
 
-// copia el bloque desde la memoria a la caché (si ya estaba, lo actualiza)
+// copia el bloque desde la memoria a la cache (si ya estaba, lo actualiza)
 static void copiar_bloque_a_cache(Memoria *memoria, size_t numero_bloque) {
     cache_escribir(&memoria->cache, numero_bloque, &memoria->datos[numero_bloque * TAM_BLOQUE]);
 }
 
-// lee una palabra completa, es un acceso: hit si estaba en la caché, miss si hubo que traer su bloque
+// lee una palabra completa, es un acceso: hit si estaba en la cache, miss si hubo que traer su bloque
 static void leer_palabra(Memoria *memoria, size_t indice_palabra, uint8_t palabra[TAM_PALABRA]) {
     if (cache_leer(&memoria->cache, indice_palabra, palabra)) {
         memoria->hits++;
@@ -41,9 +41,9 @@ static void escribir_palabra(Memoria *memoria, size_t indice_palabra, const uint
     copiar_bloque_a_cache(memoria, indice_palabra / PALABRAS_POR_BLOQUE);
 }
 
-// un acceso de n_bytes desde `direccion` toca varias palabras
+// un acceso de n_bytes desde "direccion" toca varias palabras
 // para una de ellas calcula qué bytes del acceso le corresponden: dónde empiezan dentro de la palabra,
-// dónde dentro del buffer y cuántos son
+// donde dentro del buffer y cuantos son
 typedef struct {
     size_t inicio_en_palabra;
     size_t inicio_en_buffer;
@@ -103,7 +103,7 @@ bool memoria_escribir(Memoria *memoria, size_t direccion, size_t n_bytes, const 
 }
 
 void memoria_compactar(Memoria *memoria) {
-    size_t destino = 0; // próxima posición libre al comienzo de la memoria
+    size_t destino = 0; // proxima posicion libre al comienzo de la memoria
 
     for (size_t origen = 0; origen < PALABRAS_MEMORIA; origen++) {
         if (!memoria->palabra_en_uso[origen]) {
@@ -117,7 +117,7 @@ void memoria_compactar(Memoria *memoria) {
         }
         destino++;
     }
-    // los datos cambiaron de lugar, lo que guarda la caché ya no corresponde a esas direcciones
+    // los datos cambiaron de lugar, lo que guarda la cache ya no corresponde a esas direcciones
     cache_invalidar(&memoria->cache);
 }
 
