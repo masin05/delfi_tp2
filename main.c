@@ -25,7 +25,7 @@ static void programa_alta_localidad_espacial(Memoria *memoria) {
     }
 }
 
-// baja localidad: accesos a palabras al azar de toda la memoria (mucho más grande que la caché)
+// baja localidad: accesos a palabras al azar de toda la memoria (mucho más grande que la cache)
 static void programa_baja_localidad(Memoria *memoria) {
     srand(1); // semilla fija para que los resultados sean siempre los mismos
     for (int i = 0; i < 1000; i++) {
@@ -56,7 +56,7 @@ static void probar_escritura_y_compactacion(void) {
         memset(palabra, valor_de[i], TAM_PALABRA);
         memoria_escribir(&memoria, palabra_de[i] * TAM_PALABRA, TAM_PALABRA, palabra);
     }
-    leer_palabra(&memoria, 9); // deja la palabra 9 en la caché, tras compactar no debe devolver el dato viejo
+    leer_palabra(&memoria, 9); // deja la palabra 9 en la cache, tras compactar no debe devolver el dato viejo
 
     memoria_compactar(&memoria);
 
